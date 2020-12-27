@@ -102,13 +102,21 @@ function setTask(){
 
     const draggables = document.querySelectorAll('.draggable')
 
+    let active = false
+    let currentX
+    let currentY
+    let initialX
+    let initialY
+    let xOffset = 0
+    let yOffset = 0
+
     draggables.forEach(draggable => {
         draggable.addEventListener('dragstart',() => {
             draggable.classList.add('dragging')
         })
 
         draggable.addEventListener('dragend', (e) => {
-            check(e)
+            check(e,"mouse")
             draggable.classList.remove('dragging')
         })
 
@@ -120,29 +128,51 @@ function setTask(){
 
         draggable.addEventListener('touchstart',() => {
             draggable.classList.add('dragging')
+            initialX =  e.touches[0].clientX - xOffset
+            initialY = e.touches[0].clientY - yOffset
         })
 
         draggable.addEventListener('touchend', (e) => {
-            check(e)
+            initialX=currentX
+            initialY=currentY
+            check(e, "touch")
             draggable.classList.remove('dragging')
         })
 
         draggable.addEventListener('touchmove', (e) => {
             e.preventDefault()
-        })
+            currentX = e.touches[0].clientX - initialX
+            currentY = e.touches[0].clientY - initialY
+            xOffset=currentX
+            yOffset=currentY
 
+            setTranslate(currentX, currentY, document.querySelector('.dragging'))
+        })
 
     })
 }
 
-function check(e){
+function setTranslate(xPos,yPos,element){
+    element.style.transform = `translate3d(${xPos}px, ${yPos},0)`
+}
+
+function check(e, device){
     let dragElement = document.querySelector('.dragging')
     let dragElementRect = dragElement.getBoundingClientRect()
+    let xLoc, yLoc
 
-    if(e.clientY>=dragElementRect.bottom){
+    if(device = "mouse"){
+        xLoc = e.clientX
+        yLoc = e.clientY
+    }else{
+        xLoc = e.touches[0].clientX
+        yLoc = e.touches[0].clientY
+    }
+
+    if(yLoc>=dragElementRect.bottom){
         for(i=0; i<3; i++){
         let pLx = pLabels[i].getBoundingClientRect()
-            if(e.clientX >= pLx.left && e.clientX <= pLx.left + pLx.width){
+            if(xLoc >= pLx.left && xLoc <= pLx.left + pLx.width){
                 if(dragElement.getAttribute('name') === pLabels[i].getAttribute('name')){
                     setWon()
                     removePair(dragElement, pLabels[i], 1)
@@ -154,10 +184,10 @@ function check(e){
         } 
     }
 
-    if(e.clientY<=dragElementRect.top){
+    if(yLoc<=dragElementRect.top){
         for(i=0; i<3; i++){
         let pSx = pShapes[i].getBoundingClientRect()
-            if(e.clientX >= pSx.left && e.clientX <= pSx.left + pSx.width){
+            if(xLoc >= pSx.left && xLoc <= pSx.left + pSx.width){
                 if(dragElement.getAttribute('name') === pShapes[i].getAttribute('name')){
                     setWon()
                     removePair(dragElement, pShapes[i], -1)
