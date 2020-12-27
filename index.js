@@ -116,7 +116,7 @@ function setTask(){
         })
 
         draggable.addEventListener('dragend', (e) => {
-            check(e,"mouse")
+            check(e.clientX, e.clientY)
             draggable.classList.remove('dragging')
         })
 
@@ -125,30 +125,33 @@ function setTask(){
         })
 
         /* Mobile screen */
-        let container = document.querySelector('.container')
+        //let container = document.querySelector('.container')
 
-        container.addEventListener('touchstart',(e) => {
+        draggable.addEventListener('touchstart',(e) => {
             draggable.classList.add('dragging')
+            draggable.style.opacity = 1
             initialX =  e.touches[0].clientX - xOffset
             initialY = e.touches[0].clientY - yOffset
             if(e.target === document.querySelector('.dragging')){active=true}
         })
 
-        container.addEventListener('touchend', (e) => {
-            initialX=currentX
-            initialY=currentY
+        draggable.addEventListener('touchend', (e) => {
+
+            xOffset = 0
+            yOffset = 0
+            check(initialX, initialY)
+            initialX = 0
+            initialY = 0
             active = false
-            check(e, "touch")
             draggable.classList.remove('dragging')
         })
 
-        container.addEventListener('touchmove', (e) => {
+        draggable.addEventListener('touchmove', (e) => {
             e.preventDefault()
             currentX = e.touches[0].clientX - initialX
             currentY = e.touches[0].clientY - initialY
             xOffset=currentX
             yOffset=currentY
-
             setTranslate(currentX, currentY, document.querySelector('.dragging'))
         })
 
@@ -156,21 +159,12 @@ function setTask(){
 }
 
 function setTranslate(xPos,yPos,element){
-    element.style.transform = `translate3d(${xPos}px, ${yPos},0)`
+    element.style.transform = `translate3d(${xPos}px, ${yPos}px,0)`
 }
 
-function check(e, device){
+function check(xLoc, yLoc){
     let dragElement = document.querySelector('.dragging')
     let dragElementRect = dragElement.getBoundingClientRect()
-    let xLoc, yLoc
-
-    if(device = "mouse"){
-        xLoc = e.clientX
-        yLoc = e.clientY
-    }else{
-        xLoc = e.touches[0].clientX
-        yLoc = e.touches[0].clientY
-    }
 
     if(yLoc>=dragElementRect.bottom){
         for(i=0; i<3; i++){
