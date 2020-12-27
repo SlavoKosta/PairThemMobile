@@ -126,7 +126,7 @@ function setTask(){
 
         /* Mobile screen */
 
-        draggable.addEventListener('touchstart',() => {
+        draggable.addEventListener('touchstart',(e) => {
             draggable.classList.add('dragging')
             initialX =  e.touches[0].clientX - xOffset
             initialY = e.touches[0].clientY - yOffset
