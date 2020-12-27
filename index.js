@@ -130,11 +130,13 @@ function setTask(){
             draggable.classList.add('dragging')
             initialX =  e.touches[0].clientX - xOffset
             initialY = e.touches[0].clientY - yOffset
+            if(e.target === document.querySelector('.dragging')){active=true}
         })
 
         draggable.addEventListener('touchend', (e) => {
             initialX=currentX
             initialY=currentY
+            active = false
             check(e, "touch")
             draggable.classList.remove('dragging')
         })
