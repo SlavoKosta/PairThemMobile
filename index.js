@@ -125,15 +125,16 @@ function setTask(){
         })
 
         /* Mobile screen */
+        let container = document.querySelector('.container')
 
-        draggable.addEventListener('touchstart',(e) => {
+        container.addEventListener('touchstart',(e) => {
             draggable.classList.add('dragging')
             initialX =  e.touches[0].clientX - xOffset
             initialY = e.touches[0].clientY - yOffset
             if(e.target === document.querySelector('.dragging')){active=true}
         })
 
-        draggable.addEventListener('touchend', (e) => {
+        container.addEventListener('touchend', (e) => {
             initialX=currentX
             initialY=currentY
             active = false
@@ -141,7 +142,7 @@ function setTask(){
             draggable.classList.remove('dragging')
         })
 
-        draggable.addEventListener('touchmove', (e) => {
+        container.addEventListener('touchmove', (e) => {
             e.preventDefault()
             currentX = e.touches[0].clientX - initialX
             currentY = e.touches[0].clientY - initialY
