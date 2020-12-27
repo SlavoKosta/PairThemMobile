@@ -1,0 +1,135 @@
+body {
+    background-color: grey;
+}
+
+.task {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.square {
+    animation: drawShape 0.35s ease-out 0.05s backwards;
+    width: 10rem;
+    height: 10rem;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
+}
+
+.circle {
+    animation: drawShape 0.35s ease-out 0.15s backwards;
+    width: 10rem;
+    height: 10rem;
+    clip-path: circle(50% at 50% 50%);
+}
+
+.triangle {
+    animation: drawShape 0.35s ease-out 0.25s backwards;
+    width: 10rem;
+    height: 10rem;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.circle, .triangle, .square {
+    opacity: 0.8;
+    margin: 1rem;
+}
+
+.texts {
+    display: flex;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    justify-content: center;
+}
+
+.text {
+    animation: drawShape 0.35s ease-out 0.25s backwards;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 1rem;
+    width: 10rem;
+    text-align: center;
+}
+
+.circle:hover, .square:hover, .triangle:hover, .text:hover, .btn:hover {
+    transform: scale(1.15); 
+    transition-duration: 0.15s;
+}
+
+@keyframes drawShape {
+    0% {opacity: 0; transform: scale(0)}
+    80% {opacity: 0.5; transform: scale(1.25)}
+    100% {opacity: 0.8; transform: scale(1.0)}
+}
+
+.draggable {
+    cursor: grab;
+}
+
+.dragging {
+    opacity: 0;
+}
+
+.fail {
+    top:0;
+    left:0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: crimson;
+    animation: drawShape ease-out;
+}
+
+.point {
+    top:0;
+    left:0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color:darkgreen;
+    animation: drawShape ease-out;
+}
+
+.score {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    color:darkgrey;
+    font-size: 3rem;
+    font-weight: bold;
+    animation: drawShape 0.35s ease-out 0.25s backwards;
+}
+
+.welcome {
+    top:0;
+    left:0;
+    margin: auto;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.welcomeWindow {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Courier New', Courier, monospace;
+    color:snow;
+    text-align: center;
+    width: 50%;
+    height: 40%;
+    padding: 2rem;
+    background-color: darkgrey;
+}
+
+.btn {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem;
+    width: 10rem;
+    height: 5rem;
+    border: 2px solid snow;
+    background-color:darkgrey;
+    color:snow;
+}
+
